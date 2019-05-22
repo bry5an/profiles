@@ -1,19 +1,26 @@
+# Load the default .profile
+#[[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
 
-[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
+# Load RVM into a shell session *as a function*
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-export PS1="\u@\W $ "  
-# Setting PATH for Python 3.5
-# The orginal version is saved in .bash_profile.pysave
+# Terminal prompt
+# export PS1="\u@\W $ "  
+
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+
+# Path for GO lang
 export PATH
-export GOPATH=$HOME/Code/go
+export GOPATH=$HOME/git/go
 export PATH=$PATH:$GOPATH/bin
 if [ $ITERM_SESSION_ID ]; then
   export PROMPT_COMMAND='echo -ne "\033];${PWD##*/}\007"; ':"$PROMPT_COMMAND";
 fi
-alias keys="cd ~/Code/aws_keys && ls"
 
+# Vault server
+export VAULT_ADDR=http://172.31.32.11:8200
+
+# Git push for the lazy
 commitMessage=("refactored code" "code clean-up" "merged functions" "removed trailing bracket" "added cool features")
 selectMessage=${commitMessage[$RANDOM % ${#commitMessage[*]} ]}
 function yologit() {
@@ -22,9 +29,14 @@ function yologit() {
     git push
 }
 
-alias nugetpush='ssh -i $HOME/Code/aws_keys/pipeline.pem ubuntu@172.31.24.234 rm -rf "/home/ubuntu/jenkins_data/workspace/wf-nuget-drop/*"; rsync -Pav -e "ssh -i $HOME/Code/aws_keys/pipeline.pem" $HOME/Downloads/*.nupkg ubuntu@172.31.24.234:/home/ubuntu/jenkins_data/workspace/wf-nuget-drop'
-
+# CD for the lazy
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# Trigger ~/.bashrc commands
+. ~/.bashrc
+

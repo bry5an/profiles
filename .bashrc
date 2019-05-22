@@ -9,8 +9,10 @@ case $- in
       *) return;;
 esac
 
-export EDITOR="/usr/bin/nano"
+export EDITOR="/usr/bin/vim"
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
+
+complete -C /usr/local/Cellar/terraform/0.11.3/bin/terraform terraform
